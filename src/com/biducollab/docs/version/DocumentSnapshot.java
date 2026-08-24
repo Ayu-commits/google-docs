@@ -1,4 +1,4 @@
-package com.biducollab.docs.history;
+package com.biducollab.docs.version;
 
 import java.time.LocalDateTime;
 
@@ -44,6 +44,4 @@ public class DocumentSnapshot {
     public LocalDateTime getModifiedAt() {
         return modifiedAt;
     }
-
-
 }

@@ -1,10 +1,13 @@
-package com.biducollab.docs.history;
+package com.biducollab.docs.version;
 
 import com.biducollab.docs.repository.VersionHistoryRepository;
 
 import java.util.List;
 
-// Manages document version history
+/**
+ * Thin façade over {@link VersionHistoryRepository} that exposes
+ * snapshot save/lookup by document ID and version number.
+ */
 public class VersionHistory {
 
     private final VersionHistoryRepository versionHistoryRepository;
@@ -52,21 +55,19 @@ public class VersionHistory {
     }
 }
 /*
-Iska flow
+Flow
+
 User edits document
         |
         v
-Document Version = 2
+Document version increments to N
         |
         v
-Create DocumentSnapshot
+DocumentCollaborationManager creates a DocumentSnapshot
         |
         v
-VersionHistory
+VersionHistory.addSnapshot()
         |
-        ├── Version 1
-        ├── Version 2
-        ├── Version 3
-        └── Version 4
-
+        v
+VersionHistoryRepository stores snapshot keyed by (documentId, version)
  */

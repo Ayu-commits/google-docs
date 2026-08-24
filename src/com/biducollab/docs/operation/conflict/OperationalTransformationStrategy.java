@@ -1,4 +1,4 @@
-package com.biducollab.docs.conflict;
+package com.biducollab.docs.operation.conflict;
 
 import com.biducollab.docs.operation.DeleteTextOperation;
 import com.biducollab.docs.operation.EditOperation;
@@ -87,7 +87,7 @@ public class OperationalTransformationStrategy
             newPosition += concurrent.getText().length();
         }
 
-        // Resolve same-position inserts consistently
+        // Resolve same-position inserts consistently using operation ID ordering
         else if (concurrent.getPosition()
                 == incoming.getPosition()
                 && concurrent.getOperationId()
@@ -216,58 +216,35 @@ public class OperationalTransformationStrategy
     }
 }
 /*
-Iska simple example
+OT example
 
-Initial document:
+Initial document: "HelloWorld"
+Both users are on the same document version.
 
-HelloWorld
+User A: Insert " " at position 5
+User B: Insert "Beautiful " at position 5
 
-Dono users same document version par hain.
+After User A's operation is applied: "Hello World"
 
-User A
-Insert " " at position 5
-User B
-Insert "Beautiful " at position 5
-
-Agar User A ki operation pehle apply ho gayi:
-
-Hello World
-
-Ab User B ki operation ko transform karna padega.
-
-Incoming Operation
-position = 5
-
-
+User B's operation must now be transformed:
+  Incoming position = 5
         ↓
-
-
-OperationalTransformationStrategy
-
-
+  OperationalTransformationStrategy
         ↓
+  Transformed position = 6 (shifted by 1)
+  Result: "Hello Beautiful World"
 
+Four transform cases handled:
+  Insert vs Insert  → shift position if concurrent is before
+  Insert vs Delete  → shift or clamp to deleted range start
+  Delete vs Insert  → shift delete position forward
+  Delete vs Delete  → shift or clamp overlapping deletes
 
-Transformed Operation
-position = adjusted position
-
-Hamare code mein ab basic rule hai:
-
-Concurrent insert before me
-        ↓
-Shift my position
-        ↓
-Text overwrite nahi hoga
-Current structure
-conflict
-├── ConflictResolutionStrategy.java
-└── OperationalTransformationStrategy.java
-
-
-Incoming Operation
+Flow:
+  Incoming Operation
         |
         v
-OperationalTransformationStrategy
+  OperationalTransformationStrategy
         |
         +--> Insert vs Insert
         |
@@ -278,8 +255,8 @@ OperationalTransformationStrategy
         +--> Delete vs Delete
         |
         v
-Transformed Operation
+  Transformed Operation
         |
         v
-Apply to latest document
+  Apply to latest document
  */

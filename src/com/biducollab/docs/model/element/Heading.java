@@ -44,4 +44,9 @@ public class Heading implements DocumentElement {
     public void setLevel(int level) {
         this.level = level;
     }
+
+    @Override
+    public <T> T accept(DocumentElementVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }

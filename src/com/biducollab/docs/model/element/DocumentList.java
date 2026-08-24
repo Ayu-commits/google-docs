@@ -35,4 +35,9 @@ public class DocumentList implements DocumentElement {
     public void removeItem(int index) {
         items.remove(index);
     }
+
+    @Override
+    public <T> T accept(DocumentElementVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }

@@ -1,6 +1,6 @@
 package com.biducollab.docs.repository;
 
-import com.biducollab.docs.history.DocumentSnapshot;
+import com.biducollab.docs.version.DocumentSnapshot;
 
 import java.util.List;
 

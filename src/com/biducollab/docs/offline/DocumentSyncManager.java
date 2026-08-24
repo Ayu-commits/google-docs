@@ -1,11 +1,19 @@
 package com.biducollab.docs.offline;
 
 import com.biducollab.docs.model.Document;
+import com.biducollab.docs.offline.state.SyncState;
 import com.biducollab.docs.operation.EditOperation;
 
+/**
+ * Context class for the State pattern governing offline/online synchronisation.
+ *
+ * <p>Delegates {@code handleEdit()} to the active {@link SyncState}, which is
+ * one of {@code OnlineState}, {@code OfflineState}, or {@code SyncingState}.
+ * State transitions are driven externally (e.g. network connectivity events).
+ */
 public class DocumentSyncManager {
 
-    // Current state of document synchronization
+    /** The active sync state; mutated by {@link #setState}. */
     private SyncState currentState;
 
     private final OfflineOperationQueue operationQueue;
@@ -18,12 +26,15 @@ public class DocumentSyncManager {
         this.operationQueue = operationQueue;
     }
 
-    // Change current sync state
+    /** Transition to a new sync state. */
     public void setState(SyncState state) {
         this.currentState = state;
     }
 
-    // Handle edit based on current state
+    /**
+     * Route an edit through the current sync state.
+     * Online: executes immediately; Offline: queues for later replay.
+     */
     public void handleEdit(
             Document document,
             EditOperation operation) {
@@ -40,22 +51,18 @@ public class DocumentSyncManager {
     }
 }
 /*
-Ab complete State Pattern
-                    SyncState
-                        ▲
-                        |
-          +-------------+-------------+
-          |             |             |
-          |             |             |
-     OnlineState   OfflineState   SyncingState
-          ▲             ▲             ▲
-          |             |             |
-          +-------------+-------------+
-                        |
-                        |
-              DocumentSyncManager
-                        |
-                        v
-             OfflineOperationQueue
+State Pattern diagram
 
+               SyncState  (interface)
+                   ▲
+                   |
+     +-------------+-------------+
+     |             |             |
+ OnlineState  OfflineState  SyncingState
+                   |
+                   v
+       OfflineOperationQueue  (buffers ops)
+                   |
+                   v
+            SyncService.sync()  (replays queue on reconnect)
  */

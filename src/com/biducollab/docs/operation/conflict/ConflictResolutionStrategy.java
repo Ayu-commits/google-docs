@@ -1,4 +1,4 @@
-package com.biducollab.docs.conflict;
+package com.biducollab.docs.operation.conflict;
 
 import com.biducollab.docs.operation.EditOperation;
 

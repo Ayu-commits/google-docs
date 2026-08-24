@@ -67,4 +67,9 @@ public class ImageBlock implements DocumentElement {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    @Override
+    public <T> T accept(DocumentElementVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }

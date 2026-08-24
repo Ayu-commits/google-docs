@@ -1,6 +1,7 @@
-package com.biducollab.docs.offline;
+package com.biducollab.docs.offline.state;
 
 import com.biducollab.docs.model.Document;
+import com.biducollab.docs.offline.OfflineOperationQueue;
 import com.biducollab.docs.operation.EditOperation;
 
 public class SyncingState implements SyncState {

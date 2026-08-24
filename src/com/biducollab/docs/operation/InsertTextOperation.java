@@ -4,21 +4,26 @@ import com.biducollab.docs.model.Document;
 import com.biducollab.docs.model.element.DocumentElement;
 import com.biducollab.docs.model.element.Paragraph;
 
+import java.time.Instant;
+
 public class InsertTextOperation implements EditOperation {
 
-    private String operationId;
+    private final String operationId;
 
-    private String documentId;
+    private final String documentId;
 
-    private String userId;
+    private final String userId;
 
-    private int baseVersion;
+    private final int baseVersion;
 
-    private String elementId;
+    private final String elementId;
 
     private int position;
 
-    private String text;
+    private final String text;
+
+    // Assigned by OperationProcessor when the operation reaches the server.
+    private Instant serverTimestamp;
 
     public InsertTextOperation(
             String operationId,
@@ -56,6 +61,16 @@ public class InsertTextOperation implements EditOperation {
     @Override
     public int getBaseVersion() {
         return baseVersion;
+    }
+
+    @Override
+    public Instant getServerTimestamp() {
+        return serverTimestamp;
+    }
+
+    @Override
+    public void setServerTimestamp(Instant timestamp) {
+        this.serverTimestamp = timestamp;
     }
 
     public String getElementId() {
@@ -147,37 +162,13 @@ public class InsertTextOperation implements EditOperation {
 }
 
 /*
-Suppose paragraph hai:
+Example:
+  Paragraph: "HelloWorld"
+  InsertTextOperation(position=5, text=" ")
 
-HelloWorld
+  execute():
+    substring(0,5) + " " + substring(5) = "Hello World"
 
-Aur operation:
-
-position = 5
-text = " "
-execute()
-HelloWorld
-
-
-substring(0, 5)  = Hello
-text             = " "
-substring(5)     = World
-
-
-Result:
-
-
-Hello World
-undo()
-
-Undo mein inserted text remove kar denge:
-
-Hello World
-     ↑
-position = 5
-length = 1
-
-Result:
-
-HelloWorld
+  undo():
+    Removes inserted text at position 5..6 → "HelloWorld"
  */

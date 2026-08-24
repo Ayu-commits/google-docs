@@ -4,24 +4,29 @@ import com.biducollab.docs.model.Document;
 import com.biducollab.docs.model.element.DocumentElement;
 import com.biducollab.docs.model.element.Paragraph;
 
+import java.time.Instant;
+
 public class DeleteTextOperation implements EditOperation {
 
-    private String operationId;
+    private final String operationId;
 
-    private String documentId;
+    private final String documentId;
 
-    private String userId;
+    private final String userId;
 
-    private int baseVersion;
+    private final int baseVersion;
 
-    private String elementId;
+    private final String elementId;
 
     private int position;
 
     private int length;
 
-    // This will be used for undo
+    // Saved during execute() so undo() can restore it.
     private String deletedText;
+
+    // Assigned by OperationProcessor when the operation reaches the server.
+    private Instant serverTimestamp;
 
     public DeleteTextOperation(
             String operationId,
@@ -59,6 +64,16 @@ public class DeleteTextOperation implements EditOperation {
     @Override
     public int getBaseVersion() {
         return baseVersion;
+    }
+
+    @Override
+    public Instant getServerTimestamp() {
+        return serverTimestamp;
+    }
+
+    @Override
+    public void setServerTimestamp(Instant timestamp) {
+        this.serverTimestamp = timestamp;
     }
 
     public String getElementId() {
@@ -163,39 +178,14 @@ public class DeleteTextOperation implements EditOperation {
     }
 }
 /*
-Suppose paragraph:
+Example:
+  Paragraph: "Hello Beautiful World"
+  DeleteTextOperation(position=6, length=10)
 
-Hello Beautiful World
+  execute():
+    deletedText = "Beautiful "
+    Result: "Hello World"
 
-Aur operation:
-
-position = 6
-length = 10
-
-Yahan "Beautiful " delete hoga.
-
-Execute
-Hello Beautiful World
-      |---------|
-         delete
-
-
-Result:
-
-
-Hello World
-
-Internally:
-
-deletedText = "Beautiful "
-Undo
-Hello World
-      |
-      position = 6
-
-
-Insert deletedText back
-
-
-Hello Beautiful World
+  undo():
+    Reinserts "Beautiful " at position 6 → "Hello Beautiful World"
  */

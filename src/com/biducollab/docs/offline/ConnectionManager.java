@@ -1,5 +1,9 @@
 package com.biducollab.docs.offline;
 
+import com.biducollab.docs.offline.state.OfflineState;
+import com.biducollab.docs.offline.state.OnlineState;
+import com.biducollab.docs.offline.state.SyncingState;
+
 // Manages document connection state
 public class ConnectionManager {
 

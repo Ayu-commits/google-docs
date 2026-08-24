@@ -1,20 +1,15 @@
-package com.biducollab.docs.service;
+package com.biducollab.docs.document;
 
 import com.biducollab.docs.model.Document;
-
-import java.util.List;
 import com.biducollab.docs.repository.DocumentRepository;
 
+import java.util.List;
 
-/*
-Ye class document ka basic lifecycle manage karegi:
-Naya document create karna
-Document fetch karna
-Document delete karna
-User ke documents fetch karna
+/**
+ * Manages the basic lifecycle of a {@link Document}:
+ * creation, retrieval, listing, and deletion.
+ * All persistence is delegated to a {@link DocumentRepository}.
  */
-
-// Manages document creation, retrieval and deletion
 public class DocumentService {
 
     private final DocumentRepository documentRepository;

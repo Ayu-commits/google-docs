@@ -31,6 +31,11 @@ public class Paragraph implements DocumentElement {
     public void setText(String text) {
         this.text = text;
     }
+
+    @Override
+    public <T> T accept(DocumentElementVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 /*

@@ -2,19 +2,19 @@ package com.biducollab.docs.collaboration;
 
 import com.biducollab.docs.operation.EditOperation;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CollaborationSession {
 
-    private String documentId;
+    private final String documentId;
 
-    // Connected clients for this document
-    private List<DocumentObserver> observers;
+    // CopyOnWriteArrayList allows safe concurrent iteration during broadcast.
+    private final List<DocumentObserver> observers =
+            new CopyOnWriteArrayList<>();
 
     public CollaborationSession(String documentId) {
         this.documentId = documentId;
-        this.observers = new ArrayList<>();
     }
 
     // Add a connected user

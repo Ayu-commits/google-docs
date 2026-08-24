@@ -3,16 +3,16 @@ package com.biducollab.docs.repository;
 import com.biducollab.docs.model.Document;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-// Stores documents in memory using HashMap
+// Stores documents in memory; ConcurrentHashMap ensures thread-safe access.
 public class InMemoryDocumentRepository
         implements DocumentRepository {
 
     private final Map<String, Document> documents =
-            new HashMap<>();
+            new ConcurrentHashMap<>();
 
     @Override
     public void save(Document document) {

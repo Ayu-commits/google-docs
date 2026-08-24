@@ -10,7 +10,7 @@ import com.biducollab.docs.operation.EditOperation;
 import com.biducollab.docs.permission.DocumentSharingService;
 
 import com.biducollab.docs.presence.PresenceService;
-import com.biducollab.docs.service.DocumentService;
+import com.biducollab.docs.document.DocumentService;
 
 // Provides a simple API for document operations
 public class DocumentFacade {

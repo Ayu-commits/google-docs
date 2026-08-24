@@ -4,9 +4,9 @@ import com.biducollab.docs.collaboration.CollaborationSession;
 import com.biducollab.docs.collaboration.DocumentClient;
 import com.biducollab.docs.comment.Comment;
 import com.biducollab.docs.comment.CommentService;
-import com.biducollab.docs.factory.DocumentFactory;
-import com.biducollab.docs.history.DocumentContentSerializer;
-import com.biducollab.docs.history.VersionHistory;
+import com.biducollab.docs.document.DocumentContentSerializer;
+import com.biducollab.docs.document.DocumentFactory;
+import com.biducollab.docs.document.DocumentService;
 import com.biducollab.docs.model.Document;
 import com.biducollab.docs.model.PermissionType;
 import com.biducollab.docs.operation.OperationLog;
@@ -21,7 +21,7 @@ import com.biducollab.docs.repository.InMemoryOperationRepository;
 import com.biducollab.docs.repository.InMemoryVersionHistoryRepository;
 import com.biducollab.docs.repository.OperationRepository;
 import com.biducollab.docs.repository.VersionHistoryRepository;
-import com.biducollab.docs.service.DocumentService;
+import com.biducollab.docs.version.VersionHistory;
 
 // Runs the complete Google Docs LLD demo
 public class GoogleDocsApplication {

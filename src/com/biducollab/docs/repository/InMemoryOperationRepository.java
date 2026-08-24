@@ -3,16 +3,17 @@ package com.biducollab.docs.repository;
 import com.biducollab.docs.operation.EditOperation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-// Stores document edit operations in memory
+// Stores document edit operations in memory; thread-safe via ConcurrentHashMap.
 public class InMemoryOperationRepository
         implements OperationRepository {
 
     private final Map<String, List<EditOperation>>
-            operationsByDocument = new HashMap<>();
+            operationsByDocument = new ConcurrentHashMap<>();
 
     @Override
     public void save(EditOperation operation) {
@@ -20,7 +21,7 @@ public class InMemoryOperationRepository
         operationsByDocument
                 .computeIfAbsent(
                         operation.getDocumentId(),
-                        key -> new ArrayList<>()
+                        key -> new CopyOnWriteArrayList<>()
                 )
                 .add(operation);
     }

@@ -1,6 +1,4 @@
-package com.biducollab.docs.history;
-
-import com.biducollab.docs.model.Document;
+package com.biducollab.docs.version;
 
 // Restores a document from an older version
 public class DocumentRestoreService {

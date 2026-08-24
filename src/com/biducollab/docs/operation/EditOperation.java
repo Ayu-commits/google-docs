@@ -2,6 +2,13 @@ package com.biducollab.docs.operation;
 
 import com.biducollab.docs.model.Document;
 
+import java.time.Instant;
+
+/**
+ * Represents a single user edit as a command object.
+ * Supports execute/undo for undo-redo, and carries baseVersion
+ * and serverTimestamp for Operational Transformation ordering.
+ */
 public interface EditOperation {
 
     String getOperationId();
@@ -12,29 +19,15 @@ public interface EditOperation {
 
     int getBaseVersion();
 
+    /**
+     * Server-assigned timestamp used as a deterministic tie-breaker
+     * when two operations arrive with the same baseVersion.
+     */
+    Instant getServerTimestamp();
+
+    void setServerTimestamp(Instant timestamp);
+
     void execute(Document document);
 
     void undo(Document document);
 }
-
-/*
-EditOperation
-│
-├── operationId
-│      → Har edit ki unique identity
-│
-├── documentId
-│      → Kis document par edit ho raha hai
-│
-├── userId
-│      → Kis user ne edit kiya
-│
-├── baseVersion
-│      → User ne document ka kaunsa version dekhkar edit kiya
-│
-├── execute()
-│      → Operation apply karega
-│
-└── undo()
-       → Operation reverse karega
- */

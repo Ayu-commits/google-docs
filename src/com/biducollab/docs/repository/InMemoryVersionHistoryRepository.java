@@ -1,18 +1,19 @@
 package com.biducollab.docs.repository;
 
-import com.biducollab.docs.history.DocumentSnapshot;
+import com.biducollab.docs.version.DocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-// Stores document version history in memory
+// Stores document version history in memory; thread-safe via ConcurrentHashMap.
 public class InMemoryVersionHistoryRepository
         implements VersionHistoryRepository {
 
     private final Map<String, List<DocumentSnapshot>>
-            snapshotsByDocument = new HashMap<>();
+            snapshotsByDocument = new ConcurrentHashMap<>();
 
     @Override
     public void save(DocumentSnapshot snapshot) {
@@ -20,7 +21,7 @@ public class InMemoryVersionHistoryRepository
         snapshotsByDocument
                 .computeIfAbsent(
                         snapshot.getDocumentId(),
-                        key -> new ArrayList<>()
+                        key -> new CopyOnWriteArrayList<>()
                 )
                 .add(snapshot);
     }

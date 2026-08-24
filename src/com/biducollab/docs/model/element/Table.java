@@ -35,6 +35,11 @@ public class Table implements DocumentElement {
     public void removeRow(int index) {
         rows.remove(index);
     }
+
+    @Override
+    public <T> T accept(DocumentElementVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 /*
 DocumentElement

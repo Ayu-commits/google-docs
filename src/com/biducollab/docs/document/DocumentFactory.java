@@ -1,13 +1,13 @@
-package com.biducollab.docs.factory;
+package com.biducollab.docs.document;
 
 import com.biducollab.docs.model.Document;
 
 import java.util.UUID;
 
-// Creates documents with default values
+/** Creates {@link Document} instances with generated IDs and default values. */
 public class DocumentFactory {
 
-    // Create a new document
+    /** Create a new document with a random ID. */
     public Document createDocument(
             String title,
             String ownerId) {
